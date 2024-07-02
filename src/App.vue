@@ -1,10 +1,17 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import TopNavBar from './components/modules/TopNavBar.vue'
+const readyRender = ref<boolean>(false)
+
+inital()
+
+function inital() {
+  readyRender.value = true
+}
 </script>
 
 <template>
-  <div>
-    <div>测试</div>
+  <div v-if="readyRender">
     <TopNavBar></TopNavBar>
     <router-view></router-view>
   </div>

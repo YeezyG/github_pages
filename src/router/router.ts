@@ -8,12 +8,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../components/index.vue'),
         children: [
             {
-                path: "home",
+                path: "/github_pages/home",
                 name: "Home",
                 component: () => import('../components/content/Home/home.vue')
             },
             {
-                path: "test",
+                path: "/github_pages/test",
                 name: "Test",
                 component: () => import('../components/content/Test/test.vue')
             }
