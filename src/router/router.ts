@@ -5,7 +5,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/github_pages",
         name: "index",
-        component: () => import('../App.vue'),
+        component: () => import('../components/index.vue'),
         children: [
             {
                 path: "/github_pages/home",
