@@ -1,1 +1,0 @@
-import{_ as o,o as c,c as s,p as t,g as a,a as _}from"./index-DrdGNmeu.js";const d={},n=e=>(t("data-v-26cfe3f6"),e=e(),a(),e),p={class:"home"},r=n(()=>_("div",null,"Home",-1)),f=[r];function i(e,h){return c(),s("div",p,f)}const m=o(d,[["render",i],["__scopeId","data-v-26cfe3f6"]]);export{m as default};
