@@ -7,8 +7,8 @@ const navbarList = ref<string[]>([])
 <template>
     <div class="top-navbar">
         <div style="display: flex; justify-content: center; align-items: center; height: 60px;">
-            <button class="narbar-btn" @click="router.push({ name: 'home' })">首页</button>
-            <button class="narbar-btn" @click="router.push({ name: 'test' })">测试</button>
+            <button class="narbar-btn" @click="router.push({ name: 'Home' })">首页</button>
+            <button class="narbar-btn" @click="router.push({ name: 'Test' })">测试</button>
         </div>
     </div>
 </template>
