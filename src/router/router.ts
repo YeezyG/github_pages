@@ -17,7 +17,8 @@ const routes: Array<RouteRecordRaw> = [
                 name: "Test",
                 component: () => import('../components/content/Test/test.vue')
             }
-        ]
+        ],
+        redirect: { name: 'Home' }
     },
 ];
 
