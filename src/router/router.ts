@@ -4,8 +4,20 @@ import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        name: "home",
-        component: () => import('../components/Home/home.vue')
+        name: "index",
+        component: () => import('../components/index.vue'),
+        children: [
+            {
+                path: "home",
+                name: "Home",
+                component: () => import('../components/content/Home/home.vue')
+            },
+            {
+                path: "test",
+                name: "Test",
+                component: () => import('../components/content/Test/test.vue')
+            }
+        ]
     },
 ];
 
