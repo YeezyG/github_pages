@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import TopNavBar from './components/modules/TopNavBar.vue'
 const readyRender = ref<boolean>(false)
 
 inital()
@@ -12,7 +11,6 @@ function inital() {
 
 <template>
   <div v-if="readyRender">
-    <!-- <TopNavBar></TopNavBar> -->
     <router-view></router-view>
   </div>
 </template>
