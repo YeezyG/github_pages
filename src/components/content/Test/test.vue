@@ -1,7 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+const readyRender = ref<boolean>(false)
+
+inital()
+
+function inital() {
+    readyRender.value = true
+}
 </script>
 <template>
-    <div class="test">
+    <div v-if="readyRender" class="test">
         <div>Test</div>
     </div>
 </template>
