@@ -12,7 +12,7 @@ function inital() {
 
 <template>
   <div v-if="readyRender">
-    <TopNavBar></TopNavBar>
+    <!-- <TopNavBar></TopNavBar> -->
     <router-view></router-view>
   </div>
 </template>
