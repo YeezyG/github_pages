@@ -9,7 +9,6 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
-
       - name: Install and Build 🔧
         run: |
           npm ci
@@ -19,7 +18,6 @@ jobs:
             echo "Error: Build directory does not exist."
             exit 1
           fi
-
       - name: Display Build Directory Contents 📚
         run: |
           ls -la build
@@ -28,7 +26,6 @@ jobs:
             echo "Error: Build directory is empty."
             exit 1
           fi
-
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
