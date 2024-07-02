@@ -13,7 +13,6 @@ function inital(){
 <template>
     <div v-if="readyRender">
         <TopNavBar></TopNavBar>
-        <div style="margin-top: 200px">测试</div>
         <router-view></router-view>
     </div>
 </template>
