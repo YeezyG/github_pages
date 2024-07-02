@@ -3,17 +3,17 @@ import { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: "/github_pages",
+        path: "/",
         name: "index",
         component: () => import('../components/index.vue'),
         children: [
             {
-                path: "/github_pages/home",
+                path: "home",
                 name: "Home",
                 component: () => import('../components/content/Home/home.vue')
             },
             {
-                path: "/github_pages/test",
+                path: "test",
                 name: "Test",
                 component: () => import('../components/content/Test/test.vue')
             }
