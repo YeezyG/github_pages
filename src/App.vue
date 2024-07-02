@@ -11,7 +11,6 @@ function inital() {
 
 <template>
   <div v-if="readyRender">
-    <div>APP VUE</div>
     <router-view></router-view>
   </div>
 </template>
