@@ -1,0 +1,1 @@
+import{d as n,r,c as s,a as o,b as c,e as _,o as i,T as u}from"./index-DxhXnU62.js";const d={key:0},v=n({__name:"index",setup(m){const e=r(!1);t();function t(){e.value=!0}return(p,l)=>{const a=_("router-view");return e.value?(i(),s("div",d,[o(u),o(a)])):c("",!0)}}});export{v as default};
