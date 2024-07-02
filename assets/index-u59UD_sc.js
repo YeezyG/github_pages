@@ -1,0 +1,1 @@
+import{d as n,r,c as s,a as o,b as c,e as _,f as d,o as i,T as u}from"./index-DozMPATE.js";const l={key:0},m=_("div",null,"测试",-1),N=n({__name:"index",setup(p){const e=r(!1);t();function t(){e.value=!0}return(f,v)=>{const a=d("router-view");return e.value?(i(),s("div",l,[o(u),m,o(a)])):c("",!0)}}});export{N as default};
