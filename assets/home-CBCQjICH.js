@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as c}from"./index-BA07At8L.js";const n={},o={style:{height:"100vh",display:"flex","align-items":"center","justify-content":"center"}};function s(r,_){return c(),t("div",o,"测试")}const i=e(n,[["render",s]]);export{i as default};
