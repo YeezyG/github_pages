@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import {
+    NButton,
+    NFlex,
+} from 'naive-ui';
 import router from '../../router/router';
 const navbarList = ref<string[]>([])
 
 </script>
 <template>
     <div class="top-navbar">
-        <div style="display: flex; justify-content: center; align-items: center; height: 60px;">
-            <button class="narbar-btn" @click="router.push({ name: 'Home' })">首页</button>
-            <button class="narbar-btn" @click="router.push({ name: 'Test' })">测试</button>
-        </div>
+        <n-flex :align="'center'" justify="center" style="height: 60px;">
+            <n-button class="narbar-btn" text @click="router.push({ name: 'Home' })">首页</n-button>
+            <n-button class="narbar-btn" text @click="router.push({ name: 'Test' })">测试</n-button>
+        </n-flex>
     </div>
 </template>
 
@@ -17,9 +21,6 @@ const navbarList = ref<string[]>([])
 .top-navbar {
     width: 100vw;
     background-color: #C3C3C3;
-    position: fixed;
-    top: 0;
-    left: 0;
 }
 
 .narbar-btn {

@@ -1,20 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import {
+    NLayout, NLayoutHeader, NLayoutContent,
+} from 'naive-ui'
 import TopNavBar from './modules/TopNavBar.vue';
 const readyRender = ref<boolean>(false)
 
 inital()
 
-function inital(){
+function inital() {
     readyRender.value = true
 }
 </script>
 
 <template>
-    <div v-if="readyRender">
-        <TopNavBar></TopNavBar>
-        <router-view></router-view>
-    </div>
+    <n-layout v-if="readyRender">
+        <n-layout-header>
+            <TopNavBar />
+        </n-layout-header>
+        <n-layout-content content-style="padding: 24px;">
+            <router-view />
+        </n-layout-content>
+    </n-layout>
 </template>
 
 <style scoped></style>
