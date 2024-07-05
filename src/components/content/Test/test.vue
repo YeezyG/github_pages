@@ -18,7 +18,7 @@ enum CellType {
 }
 
 // 定义常量
-const rows = 5;
+const rows = 7;
 const cols = 7;
 const cellSize = 50;
 const dirs: [number, number][] = [[-1, 0], [1, 0], [0, -1], [0, 1]];
@@ -33,11 +33,10 @@ const marks = {
 const grid = reactive<CellType[][]>(Array.from({ length: rows }, () => Array(cols).fill(CellType.Empty)));
 
 // 初始化网格
-grid[0][0] = CellType.Person;
-grid[0][6] = CellType.House;
-grid[1][1] = grid[1][3] = grid[1][5] = CellType.Wall;
-grid[3][0] = grid[3][4] = grid[3][5] = CellType.Wall;
-grid[3][2] = grid[2][5] = CellType.Fire;
+grid[6][0] = CellType.Person;
+grid[6][6] = CellType.House;
+grid[1][4] = grid[1][1] = grid[1][5] = grid[2][5] = grid[5][3] = grid[3][0] = grid[3][4] = grid[3][5] = CellType.Wall;
+grid[3][2] = grid[2][4] = CellType.Fire;
 
 const initialGrid = JSON.parse(JSON.stringify(grid));
 
@@ -144,6 +143,7 @@ function inital() {
 
 .grid-container>.grid-row>div {
     border: 1px solid black;
+    transition: background-color 0.3s ease;
 }
 
 .wall {

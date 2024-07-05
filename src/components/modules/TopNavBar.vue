@@ -10,9 +10,9 @@ import router from '../../router/router';
 <template>
     <div class="top-navbar">
         <n-flex :align="'center'" justify="center" style="height: 60px;">
-            <n-button class="narbar-btn" text @click="router.push({ name: 'Index' })">首页</n-button>
-            <n-button class="narbar-btn" text @click="router.push({ name: 'Home' })">主页</n-button>
-            <n-button class="narbar-btn" text @click="router.push({ name: 'Test' })">测试</n-button>
+            <n-button size="large" class="narbar-btn" text @click="router.push({ name: 'Home' })">主页</n-button>
+            <n-button size="large" class="narbar-btn" text @click="router.push({ name: 'Index' })">首页</n-button>
+            <n-button size="large" class="narbar-btn" text @click="router.push({ name: 'Test' })">测试</n-button>
         </n-flex>
     </div>
 </template>
