@@ -11,6 +11,7 @@ function inital() {
 <template>
     <div v-if="readyRender" class="home">
         <div>Home</div>
+        <div>测试</div>
     </div>
 </template>
 
