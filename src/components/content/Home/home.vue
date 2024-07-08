@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 const readyRender = ref<boolean>(false)
 
+const testData = ref<string>('测试数据')
+
 inital()
 
 function inital() {
@@ -12,6 +14,7 @@ function inital() {
     <div v-if="readyRender" class="home">
         <div>Home</div>
         <div>测试</div>
+        <div>{{ testData }}</div>
     </div>
 </template>
 
