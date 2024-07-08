@@ -6,8 +6,6 @@ import {
     NSlider,
 } from 'naive-ui'
 
-const readyRender = ref<boolean>(false);
-
 // 定义单元格类型
 enum CellType {
     Empty,
@@ -18,7 +16,7 @@ enum CellType {
 }
 
 // 定义常量
-const rows = 5;
+const rows = 7;
 const cols = 7;
 const cellSize = 50;
 const dirs: [number, number][] = [[-1, 0], [1, 0], [0, -1], [0, 1]];
@@ -37,9 +35,6 @@ const grid = reactive<CellType[][]>(Array.from({ length: rows }, () => Array(col
 // 初始化网格
 grid[0][0] = CellType.Person;
 grid[rows - 1][cols - 1] = CellType.House;
-grid[2][4] = grid[1][5] = CellType.Fire;
-
-const initialGrid = JSON.parse(JSON.stringify(grid));
 
 const getCellClass = (cell: CellType) => {
     switch (cell) {
@@ -55,6 +50,46 @@ const getCellClass = (cell: CellType) => {
             return '';
     }
 };
+
+// 计算火的数量
+const calculateFireCount = (rows: number, cols: number): number => {
+    const maxLength = Math.max(rows, cols);
+    return Math.floor(maxLength / 6) + 1;
+};
+
+// 随机生成火的位置
+const generateRandomFirePositions = (count: number, rows: number, cols: number): [number, number][] => {
+    const positions: [number, number][] = [];
+    const occupied = new Set<string>();
+    occupied.add('0,0'); // 左上角
+    occupied.add(`${rows - 1},${cols - 1}`); // 右下角
+
+    while (positions.length < count) {
+        const row = Math.floor(Math.random() * rows);
+        const col = Math.floor(Math.random() * cols);
+        const key = `${row},${col}`;
+        if (!occupied.has(key) && grid[row][col] === CellType.Empty) {
+            positions.push([row, col]);
+            occupied.add(key);
+        }
+    }
+
+    return positions;
+};
+
+// 设置火的位置
+const setFirePositions = (positions: [number, number][]) => {
+    positions.forEach(([row, col]) => {
+        grid[row][col] = CellType.Fire;
+    });
+};
+
+// 初始化火的位置
+const fireCount = calculateFireCount(rows, cols);
+const firePositions = generateRandomFirePositions(fireCount, rows, cols);
+setFirePositions(firePositions);
+
+const initialGrid = JSON.parse(JSON.stringify(grid));
 
 const updateFireSpread = () => {
     const newGrid = JSON.parse(JSON.stringify(initialGrid));
@@ -102,6 +137,8 @@ const updateFireSpread = () => {
     }
 };
 
+watch(minutes, updateFireSpread);
+
 // 点击格子事件处理函数
 const handleCellClick = (row: number, col: number) => {
     if (minutes.value === 0) {
@@ -117,7 +154,6 @@ const handleCellClick = (row: number, col: number) => {
             10: '10 min'
         };
         const maxMinutes = maximumMinutes(grid);
-        console.log(maxMinutes)
         if (maxMinutes !== -1) {
             marks.value[maxMinutes] = 'Max';
         }
@@ -204,18 +240,10 @@ function maximumMinutes(grid: CellType[][]): number {
 }
 
 
-watch(minutes, updateFireSpread);
-
-inital()
-
-function inital() {
-    readyRender.value = true
-}
-
 
 </script>
 <template>
-    <div v-if="readyRender" class="test">
+    <div class="test">
         <n-flex vertical :align="'center'" justify="center" size="large">
             <n-h1>逃离火灾</n-h1>
             <div>
@@ -227,7 +255,7 @@ function inital() {
                         </div>
                     </div>
                 </div>
-                <n-slider v-model:value="minutes" :step="1" :max="10" :marks="marks" :format-tooltip="formatTooltip"/>
+                <n-slider v-model:value="minutes" :step="1" :max="10" :marks="marks" :format-tooltip="formatTooltip" />
             </div>
         </n-flex>
     </div>
