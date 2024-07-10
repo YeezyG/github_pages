@@ -6,7 +6,6 @@ import {
     NSlider,
 } from 'naive-ui'
 
-// 定义单元格类型
 enum CellType {
     Empty,
     Fire,
@@ -15,25 +14,38 @@ enum CellType {
     House
 }
 
-// 定义常量
 const rows = 7;
+
 const cols = 7;
+
 const cellSize = 50;
+
 const dirs: [number, number][] = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
 const minutes = ref<number>(0);
 
+const pathLength = ref<number>(0);
+
+const maxStayMinutes = ref<number>(0);
+
+const maxSliderValue = ref<number>(30);
+
+const showSlider = ref<boolean>(false);
+
+const path = reactive<[number, number][]>([]);
+
 const marks = ref<Record<number, string>>({
     0: '0 min',
-    10: '10 min'
 })
 
 const formatTooltip = (value: number) => `${value} min`
 
 const grid = reactive<CellType[][]>(Array.from({ length: rows }, () => Array(cols).fill(CellType.Empty)));
 
-// 初始化网格
+grid[2][3] = CellType.Fire;
+
 grid[0][0] = CellType.Person;
+
 grid[rows - 1][cols - 1] = CellType.House;
 
 const getCellClass = (cell: CellType) => {
@@ -51,48 +63,53 @@ const getCellClass = (cell: CellType) => {
     }
 };
 
-// 计算火的数量
-const calculateFireCount = (rows: number, cols: number): number => {
-    const maxLength = Math.max(rows, cols);
-    return Math.floor(maxLength / 6) + 1;
-};
 
-// 随机生成火的位置
-const generateRandomFirePositions = (count: number, rows: number, cols: number): [number, number][] => {
-    const positions: [number, number][] = [];
-    const occupied = new Set<string>();
-    occupied.add('0,0'); // 左上角
-    occupied.add(`${rows - 1},${cols - 1}`); // 右下角
+// // 计算火的数量
+// const calculateFireCount = (rows: number, cols: number): number => {
+//     const maxLength = Math.max(rows, cols);
+//     return Math.floor(maxLength / 6) + 1;
+// };
 
-    while (positions.length < count) {
-        const row = Math.floor(Math.random() * rows);
-        const col = Math.floor(Math.random() * cols);
-        const key = `${row},${col}`;
-        if (!occupied.has(key) && grid[row][col] === CellType.Empty) {
-            positions.push([row, col]);
-            occupied.add(key);
-        }
-    }
+// // 随机生成火的位置
+// const generateRandomFirePositions = (count: number, rows: number, cols: number): [number, number][] => {
+//     const positions: [number, number][] = [];
+//     const occupied = new Set<string>();
+//     occupied.add('0,0'); // 左上角
+//     occupied.add(`${rows - 1},${cols - 1}`); // 右下角
+//     while (positions.length < count) {
+//         const row = Math.floor(Math.random() * rows);
+//         const col = Math.floor(Math.random() * cols);
+//         const key = `${row},${col}`;
+//         if (!occupied.has(key) && grid[row][col] === CellType.Empty) {
+//             positions.push([row, col]);
+//             occupied.add(key);
+//         }
+//     }
+//     return positions;
+// };
 
-    return positions;
-};
+// // 设置火的位置
+// const setFirePositions = (positions: [number, number][]) => {
+//     positions.forEach(([row, col]) => {
+//         grid[row][col] = CellType.Fire;
+//     });
+// };
 
-// 设置火的位置
-const setFirePositions = (positions: [number, number][]) => {
-    positions.forEach(([row, col]) => {
-        grid[row][col] = CellType.Fire;
-    });
-};
+// // 初始化火的位置
+// const fireCount = calculateFireCount(rows, cols);
 
-// 初始化火的位置
-const fireCount = calculateFireCount(rows, cols);
-const firePositions = generateRandomFirePositions(fireCount, rows, cols);
-setFirePositions(firePositions);
+// const firePositions = generateRandomFirePositions(fireCount, rows, cols);
+
+// setFirePositions(firePositions);
 
 const initialGrid = JSON.parse(JSON.stringify(grid));
 
-const updateFireSpread = () => {
+const updateFireSpread = (value: number) => {
+    minutes.value = value;
     const newGrid = JSON.parse(JSON.stringify(initialGrid));
+    if (minutes.value > maxStayMinutes.value) {
+        newGrid[0][0] = CellType.Empty
+    }
     const fireQueue: [number, number][] = [];
     const visited = new Set<string>();
 
@@ -109,8 +126,8 @@ const updateFireSpread = () => {
     // 火蔓延
     let time = 0;
     while (fireQueue.length > 0 && time < minutes.value) {
-        const levelSize = fireQueue.length;
-        for (let i = 0; i < levelSize; i++) {
+        const fireQueueLength = fireQueue.length;
+        for (let i = 0; i < fireQueueLength; i++) {
             const [x, y] = fireQueue.shift()!;
             for (const [dx, dy] of dirs) {
                 const nx = x + dx;
@@ -130,14 +147,55 @@ const updateFireSpread = () => {
         time++;
     }
 
+    // 记录人物路径
+    // path.length = 0
+    let queue: [number, number][] = [[0, 0]];
+    const parentMap = new Map<string, [number, number]>();
+
+    while (queue.length > 0) {
+        const [x, y] = queue.shift()!;
+        if (x === rows - 1 && y === cols - 1) {
+            let current: [number, number] | null = [x, y];
+            while (current) {
+                path.unshift(current);
+                const parent = parentMap.get(`${current[0]},${current[1]}`);
+                current = parent ? parent : null;
+            }
+            break;
+        }
+        for (const [dx, dy] of dirs) {
+            const nx = x + dx;
+            const ny = y + dy;
+            if (
+                nx >= 0 && nx < rows &&
+                ny >= 0 && ny < cols &&
+                !parentMap.has(`${nx},${ny}`) &&
+                (newGrid[nx][ny] === CellType.Empty || newGrid[nx][ny] === CellType.House)
+            ) {
+                parentMap.set(`${nx},${ny}`, [x, y]);
+                queue.push([nx, ny]);
+            }
+        }
+    }
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < cols; j++) {
             grid[i][j] = newGrid[i][j];
         }
     }
+
+    if (pathLength.value === 0) {
+        pathLength.value = path.length;
+        maxSliderValue.value = maxStayMinutes.value + pathLength.value - 1;
+    }
+
+    marks.value[maxSliderValue.value] = 'Arrive';
+
+    if (minutes.value > maxStayMinutes.value) {
+        movePerson();
+    }
 };
 
-watch(minutes, updateFireSpread);
+// watch(minutes, updateFireSpread);
 
 // 点击格子事件处理函数
 const handleCellClick = (row: number, col: number) => {
@@ -151,17 +209,41 @@ const handleCellClick = (row: number, col: number) => {
         }
         marks.value = {
             0: '0 min',
-            10: '10 min'
         };
-        const maxMinutes = maximumMinutes(grid);
+        const maxMinutes = getMaxMintues(grid);
         if (maxMinutes !== -1) {
             marks.value[maxMinutes] = 'Max';
+            maxStayMinutes.value = maxMinutes;
+            showSlider.value = true;
         }
     }
 };
 
-// maximumMinutes 函数
-function maximumMinutes(grid: CellType[][]): number {
+// 移动人物
+const movePerson = () => {
+    const targetIndex = Math.min(minutes.value - maxStayMinutes.value, path.length - 1);
+    let [prevX, prevY] = [-1, -1];
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (grid[i][j] === CellType.Person) {
+                prevX = i;
+                prevY = j;
+                break;
+            }
+        }
+        if (prevX !== -1 && prevY !== -1) {
+            break;
+        }
+    }
+    const [px, py] = path[targetIndex];
+    grid[px][py] = CellType.Person;
+    if (prevX !== -1 && prevY !== -1) {
+        grid[prevX][prevY] = CellType.Empty;
+    }
+};
+
+// 得到最大停留时间
+function getMaxMintues(grid: CellType[][]): number {
     const m = grid.length;
     const n = grid[0].length;
     const fire = new Array(m).fill(null).map(() => new Array(n).fill(false));
@@ -175,7 +257,7 @@ function maximumMinutes(grid: CellType[][]): number {
             const [i, j] = q.shift()!;
             for (let k = 0; k < 4; k++) {
                 const [x, y] = [i + dirs[k], j + dirs[k + 1]];
-                if (x >= 0 && x < m && y >= 0 && y < n && !fire[x][y] && (grid[x][y] === CellType.Empty || grid[x][y] === CellType.Person || grid[x][y] === CellType.House)) {
+                if (x >= 0 && x < m && y >= 0 && y < n && !fire[x][y] && grid[x][y] !== CellType.Wall) {
                     fire[x][y] = true;
                     nq.push([x, y]);
                 }
@@ -185,10 +267,8 @@ function maximumMinutes(grid: CellType[][]): number {
     };
 
     const check = (t: number): boolean => {
-        for (let i = 0; i < m; i++) {
-            fire[i].fill(false);
-            vis[i].fill(false);
-        }
+        fire.forEach(row => row.fill(false));
+        vis.forEach(row => row.fill(false));
         let q1: [number, number][] = [];
         for (let i = 0; i < m; i++) {
             for (let j = 0; j < n; j++) {
@@ -226,7 +306,6 @@ function maximumMinutes(grid: CellType[][]): number {
         }
         return false;
     };
-
     while (l < r) {
         const mid = (l + r + 1) >> 1;
         if (check(mid)) {
@@ -235,13 +314,10 @@ function maximumMinutes(grid: CellType[][]): number {
             r = mid - 1;
         }
     }
-
     return l === m * n ? 1e9 : l;
 }
-
-
-
 </script>
+
 <template>
     <div class="test">
         <n-flex vertical :align="'center'" justify="center" size="large">
@@ -255,7 +331,8 @@ function maximumMinutes(grid: CellType[][]): number {
                         </div>
                     </div>
                 </div>
-                <n-slider v-model:value="minutes" :step="1" :max="10" :marks="marks" :format-tooltip="formatTooltip" />
+                <n-slider v-if="showSlider" @update:value="updateFireSpread($event)" :step="1" :max="maxSliderValue"
+                    :marks="marks" :format-tooltip="formatTooltip" />
             </div>
         </n-flex>
     </div>
