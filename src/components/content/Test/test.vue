@@ -210,7 +210,7 @@ const handleCellClick = (row: number, col: number) => {
             0: '0 min'
         };
         maxStayMinutes.value = getMaxStayMinutes(grid);
-        if (maxStayMinutes.value > 0) {
+        if (maxStayMinutes.value > 0 && maxStayMinutes.value !== 1e9) {
             marks.value[maxStayMinutes.value] = 'Max';
             maxSlider.value = maxStayMinutes.value + shortestPath(grid, [0, 0], [rows - 1, cols - 1]).length - 1;
             marks.value[maxSlider.value] = 'Arrive';
@@ -219,6 +219,13 @@ const handleCellClick = (row: number, col: number) => {
             maxSlider.value = maxStayMinutes.value + shortestPath(grid, [0, 0], [rows - 1, cols - 1]).length - 1;
             marks.value[maxSlider.value] = 'Arrive';
             showSlider.value = true
+        } else if (maxStayMinutes.value === 1e9) {
+            maxStayMinutes.value = 0
+            maxSlider.value = maxStayMinutes.value + shortestPath(grid, [0, 0], [rows - 1, cols - 1]).length - 1;
+            marks.value[maxSlider.value] = 'Arrive';
+            showSlider.value = true
+        } else{
+            showSlider.value = false
         }
     }
 };
