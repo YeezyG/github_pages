@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, watch, nextTick } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import {
     NButton,
     NFlex,
@@ -7,7 +7,6 @@ import {
     NSlider,
 } from 'naive-ui'
 
-// 定义单元格类型
 enum CellType {
     Empty,
     Fire,
@@ -16,10 +15,9 @@ enum CellType {
     House
 }
 
-// 定义常量
-const rows = 7;
+const rows = 12;
 
-const cols = 7;
+const cols = 12;
 
 const cellSize = 50;
 
@@ -48,7 +46,6 @@ const movePersonGrid = ref<CellType[][]>(Array.from({ length: rows }, () => Arra
 grid[0][0] = CellType.Person;
 
 grid[rows - 1][cols - 1] = CellType.House;
-// grid[1][2] = CellType.Fire
 
 const getCellClass = (cell: CellType) => {
     switch (cell) {
@@ -238,14 +235,14 @@ function getMaxStayMinutes(grid: CellType[][]): number {
     const n = grid[0].length;
     const fire = new Array(m).fill(null).map(() => new Array(n).fill(false));
     const vis = new Array(m).fill(null).map(() => new Array(n).fill(false));
-    const dirs: number[] = [-1, 0, 1, 0, -1];
     let [l, r] = [-1, m * n];
     const spread = (q: [number, number][]): [number, number][] => {
         const nq: [number, number][] = [];
         while (q.length) {
             const [i, j] = q.shift()!;
-            for (let k = 0; k < 4; k++) {
-                const [x, y] = [i + dirs[k], j + dirs[k + 1]];
+            for (const [dx, dy] of dirs) {
+                const x = i + dx;
+                const y = j + dy;
                 if (x >= 0 && x < m && y >= 0 && y < n && !fire[x][y] && (grid[x][y] === CellType.Empty || grid[x][y] === CellType.Person || grid[x][y] === CellType.House)) {
                     fire[x][y] = true;
                     nq.push([x, y]);
@@ -282,8 +279,9 @@ function getMaxStayMinutes(grid: CellType[][]): number {
                 if (fire[i][j]) {
                     continue;
                 }
-                for (let k = 0; k < 4; k++) {
-                    const [x, y] = [i + dirs[k], j + dirs[k + 1]];
+                for (const [dx, dy] of dirs) {
+                    const x = i + dx;
+                    const y = j + dy;
                     if (x >= 0 && x < m && y >= 0 && y < n && !vis[x][y] && !fire[x][y] && (grid[x][y] === CellType.Empty || grid[x][y] === CellType.House)) {
                         if (x === m - 1 && y === n - 1) {
                             return true;
