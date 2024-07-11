@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, watch, nextTick } from 'vue';
 import {
+    NButton,
     NFlex,
     NH1,
     NSlider,
@@ -17,9 +18,13 @@ enum CellType {
 
 // 定义常量
 const rows = 7;
+
 const cols = 7;
+
 const cellSize = 50;
+
 const dirs: [number, number][] = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+
 const maxStayMinutes = ref<number>(0)
 
 const maxSlider = ref<number>(10)
@@ -40,8 +45,8 @@ const grid = reactive<CellType[][]>(Array.from({ length: rows }, () => Array(col
 
 const movePersonGrid = ref<CellType[][]>(Array.from({ length: rows }, () => Array(cols).fill(CellType.Empty)));
 
-// 初始化网格
 grid[0][0] = CellType.Person;
+
 grid[rows - 1][cols - 1] = CellType.House;
 // grid[1][2] = CellType.Fire
 
@@ -60,14 +65,12 @@ const getCellClass = (cell: CellType) => {
     }
 };
 
-// 计算火的数量
 const calculateFireCount = (rows: number, cols: number): number => {
     const maxLength = Math.max(rows, cols);
     return Math.floor(maxLength / 6) + 1;
 };
 
-// 随机生成火的位置
-const generateRandomFirePositions = (count: number, rows: number, cols: number): [number, number][] => {
+const generateFirePositions = (count: number, rows: number, cols: number): [number, number][] => {
     const positions: [number, number][] = [];
     const occupied = new Set<string>();
     occupied.add('0,0');
@@ -86,16 +89,16 @@ const generateRandomFirePositions = (count: number, rows: number, cols: number):
     return positions;
 };
 
-// 设置火的位置
 const setFirePositions = (positions: [number, number][]) => {
     positions.forEach(([row, col]) => {
         grid[row][col] = CellType.Fire;
     });
 };
 
-// 初始化火的位置
 const fireCount = calculateFireCount(rows, cols);
-const firePositions = generateRandomFirePositions(fireCount, rows, cols);
+
+const firePositions = generateFirePositions(fireCount, rows, cols);
+
 setFirePositions(firePositions);
 
 const initialGrid = JSON.parse(JSON.stringify(grid));
@@ -224,7 +227,7 @@ const handleCellClick = (row: number, col: number) => {
             maxSlider.value = maxStayMinutes.value + shortestPath(grid, [0, 0], [rows - 1, cols - 1]).length - 1;
             marks.value[maxSlider.value] = 'Arrive';
             showSlider.value = true
-        } else{
+        } else {
             showSlider.value = false
         }
     }
@@ -303,6 +306,11 @@ function getMaxStayMinutes(grid: CellType[][]): number {
     }
     return l === m * n ? 1e9 : l;
 }
+
+const refreshPage = () => {
+    window.location.reload();
+};
+
 </script>
 <template>
     <div class="test">
@@ -312,7 +320,8 @@ function getMaxStayMinutes(grid: CellType[][]): number {
                 <div class="grid-container">
                     <div class="grid-row" v-for="(row, rowIndex) in grid" :key="`row-${rowIndex}`">
                         <div v-for="(cell, colIndex) in row" :key="`cell-${rowIndex}-${colIndex}`"
-                            :class="getCellClass(cell)" :style="{ width: `${cellSize}px`, height: `${cellSize}px` }"
+                            :class="getCellClass(cell)"
+                            :style="{ width: `${cellSize}px`, height: `${cellSize}px`, cursor: minutes === 0 ? 'pointer' : 'default' }"
                             @click="handleCellClick(rowIndex, colIndex)">
                         </div>
                     </div>
@@ -320,6 +329,7 @@ function getMaxStayMinutes(grid: CellType[][]): number {
                 <n-slider v-if="showSlider" v-model:value="minutes" :step="1" :max="maxSlider" :marks="marks"
                     :format-tooltip="formatTooltip" />
             </div>
+            <n-button @click="refreshPage">刷新</n-button>
         </n-flex>
     </div>
 </template>
