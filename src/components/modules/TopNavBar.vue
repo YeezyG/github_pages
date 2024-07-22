@@ -6,13 +6,31 @@ import {
 } from 'naive-ui';
 import router from '../../router/router';
 
+const navBarList = ref<{ 'name': string, 'routerName': string }[]>([
+    {
+        'name': '主页',
+        'routerName': 'Home'
+    },
+    {
+        'name': '博客',
+        'routerName': 'Blog'
+    },
+    {
+        'name': '测试',
+        'routerName': 'Test'
+    },
+])
+
 </script>
+
 <template>
     <div class="top-navbar">
         <n-flex :align="'center'" justify="center" style="height: 60px;">
-            <n-button size="large" class="narbar-btn" text @click="router.push({ name: 'Home' })">主页</n-button>
-            <n-button size="large" class="narbar-btn" text @click="router.push({ name: 'Index' })">首页</n-button>
-            <n-button size="large" class="narbar-btn" text @click="router.push({ name: 'Test' })">测试</n-button>
+            <div v-for="(item, index) in navBarList" :key="index">
+                <n-button class="narbar-btn" text @click="router.push({ name: `${item.routerName}` })">
+                    {{ item.name }}
+                </n-button>
+            </div>
         </n-flex>
     </div>
 </template>
@@ -24,6 +42,7 @@ import router from '../../router/router';
 }
 
 .narbar-btn {
+    font-size: 16px;
     margin: 0 10px;
 }
 </style>

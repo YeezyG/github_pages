@@ -15,9 +15,9 @@ enum CellType {
     House
 }
 
-const rows = 12;
+const rows = 6;
 
-const cols = 12;
+const cols = 6;
 
 const cellSize = 50;
 
@@ -40,8 +40,6 @@ const marks = ref<Record<number, string>>({
 const formatTooltip = (value: number) => `${value} min`
 
 const grid = reactive<CellType[][]>(Array.from({ length: rows }, () => Array(cols).fill(CellType.Empty)));
-
-const movePersonGrid = ref<CellType[][]>(Array.from({ length: rows }, () => Array(cols).fill(CellType.Empty)));
 
 grid[0][0] = CellType.Person;
 
@@ -136,6 +134,7 @@ const updateFireSpread = () => {
             }
         }
     }
+
     let time = 0;
     while (fireQueue.length > 0 && time < minutes.value) {
         const levelSize = fireQueue.length;
@@ -199,11 +198,9 @@ const handleCellClick = (row: number, col: number) => {
         if (grid[row][col] === CellType.Empty) {
             grid[row][col] = CellType.Wall;
             initialGrid[row][col] = CellType.Wall;
-            movePersonGrid.value[row][col] = CellType.Wall;
         } else if (grid[row][col] === CellType.Wall) {
             grid[row][col] = CellType.Empty;
             initialGrid[row][col] = CellType.Empty;
-            movePersonGrid.value![row][col] = CellType.Empty;
         }
         path.value = shortestPath(grid, [0, 0], [rows - 1, cols - 1]);
         marks.value = {
@@ -313,7 +310,10 @@ const refreshPage = () => {
 <template>
     <div class="test">
         <n-flex vertical :align="'center'" justify="center" size="large">
-            <n-h1>逃离火灾</n-h1>
+            <n-flex :align="'center'" justify="center" size="large">
+                <n-h1 style="margin: 0;">逃离火灾</n-h1>
+                <n-button @click="refreshPage">刷新</n-button>
+            </n-flex>
             <div>
                 <div class="grid-container">
                     <div class="grid-row" v-for="(row, rowIndex) in grid" :key="`row-${rowIndex}`">
@@ -327,12 +327,15 @@ const refreshPage = () => {
                 <n-slider v-if="showSlider" v-model:value="minutes" :step="1" :max="maxSlider" :marks="marks"
                     :format-tooltip="formatTooltip" />
             </div>
-            <n-button @click="refreshPage">刷新</n-button>
         </n-flex>
     </div>
 </template>
 
 <style scoped>
+.test {
+    height: calc(100vh - 108px);
+}
+
 .grid-container {
     display: flex;
     flex-direction: column;

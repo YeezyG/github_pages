@@ -4,13 +4,19 @@ import { RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/github_pages/",
-        name: "Index",
+        // name: "Index",
+        redirect: { name: 'Home' },
         component: () => import('../components/index.vue'),
         children: [
             {
                 path: "home",
                 name: "Home",
                 component: () => import('../components/content/Home/home.vue')
+            },
+            {
+                path: "blog",
+                name: "Blog",
+                component: () => import('../components/content/Blog/blog.vue')
             },
             {
                 path: "test",
