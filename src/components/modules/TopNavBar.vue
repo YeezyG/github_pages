@@ -23,7 +23,7 @@ const navBarList = ref<{ 'name': string, 'routerName': string }[]>([
     <div class="top-navbar">
         <n-flex :align="'center'" justify="space-between" style="height: 60px;">
             <div class="navbar-logo">
-                <router-link to="/testPage">Logo</router-link>
+                <router-link to="/github_pages">Logo</router-link>
             </div>
             <n-flex :align="'center'" style="padding: 0 20px;">
                 <div v-for="(item, index) in navBarList" :key="index">

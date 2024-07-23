@@ -3,7 +3,7 @@ import { RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
     {
-        path: "/testPage/",
+        path: "/github_pages/",
         // name: "Index",
         redirect: { name: 'Home' },
         component: () => import('../components/index.vue'),
