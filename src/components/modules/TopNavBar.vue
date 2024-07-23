@@ -8,10 +8,6 @@ import router from '../../router/router';
 
 const navBarList = ref<{ 'name': string, 'routerName': string }[]>([
     {
-        'name': '主页',
-        'routerName': 'Home'
-    },
-    {
         'name': '博客',
         'routerName': 'Blog'
     },
@@ -25,12 +21,17 @@ const navBarList = ref<{ 'name': string, 'routerName': string }[]>([
 
 <template>
     <div class="top-navbar">
-        <n-flex :align="'center'" justify="center" style="height: 60px;">
-            <div v-for="(item, index) in navBarList" :key="index">
-                <n-button class="narbar-btn" text @click="router.push({ name: `${item.routerName}` })">
-                    {{ item.name }}
-                </n-button>
+        <n-flex :align="'center'" justify="space-between" style="height: 60px;">
+            <div class="navbar-logo">
+                <router-link to="/testPage">Logo</router-link>
             </div>
+            <n-flex :align="'center'" style="padding: 0 20px;">
+                <div v-for="(item, index) in navBarList" :key="index">
+                    <n-button class="narbar-btn" text @click="router.push({ name: `${item.routerName}` })">
+                        {{ item.name }}
+                    </n-button>
+                </div>
+            </n-flex>
         </n-flex>
     </div>
 </template>
@@ -38,11 +39,20 @@ const navBarList = ref<{ 'name': string, 'routerName': string }[]>([
 <style scoped>
 .top-navbar {
     width: 100vw;
-    background-color: #C3C3C3;
+    background-color: #333;
 }
 
 .narbar-btn {
-    font-size: 16px;
+    font-size: 14px;
     margin: 0 10px;
+    color: white;
+}
+
+.navbar-logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    line-height: 1;
+    padding: 0 20px;
 }
 </style>

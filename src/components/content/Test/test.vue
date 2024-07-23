@@ -333,7 +333,8 @@ const refreshPage = () => {
 
 <style scoped>
 .test {
-    height: calc(100vh - 108px);
+    height: calc(100vh - 120px);
+    padding: 30px;
 }
 
 .grid-container {

@@ -59,7 +59,8 @@ function inital() {
 
 <style scoped>
 .blog {
-    height: calc(100vh - 108px);
+    height: calc(100vh - 120px);
+    padding: 30px
 }
 
 .img {
