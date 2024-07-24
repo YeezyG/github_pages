@@ -140,7 +140,6 @@ onMounted(() => {
     align-items: center;
     margin: 0;
     height: calc(100vh - 60px);
-    background: #fff;
 }
 
 ul#nav {

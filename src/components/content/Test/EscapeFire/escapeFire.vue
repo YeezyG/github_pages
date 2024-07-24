@@ -15,9 +15,9 @@ enum CellType {
     House
 }
 
-const rows = 6;
+const rows = 8;
 
-const cols = 6;
+const cols = 8;
 
 const cellSize = 50;
 
@@ -311,7 +311,7 @@ const refreshPage = () => {
     <div class="escapeFire">
         <n-flex vertical :align="'center'" justify="center" size="large">
             <n-flex vertical :align="'center'" justify="center" size="large">
-                <n-h1 style="margin: 0; color: white">逃离火灾</n-h1>
+                <n-h1 style="margin: 0;">逃离火灾</n-h1>
                 <n-button type="primary" round @click="refreshPage">刷新</n-button>
             </n-flex>
             <div>
@@ -335,9 +335,6 @@ const refreshPage = () => {
 .escapeFire {
     height: calc(100vh - 120px);
     padding: 30px;
-    background: url('https://cdn.pixabay.com/photo/2024/03/13/17/57/sea-8631493_1280.jpg') no-repeat center center fixed;
-    background-size: cover;
-    overflow-y: auto;
 }
 
 .grid-container {
