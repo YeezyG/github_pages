@@ -308,11 +308,11 @@ const refreshPage = () => {
 
 </script>
 <template>
-    <div class="test">
+    <div class="escapeFire">
         <n-flex vertical :align="'center'" justify="center" size="large">
-            <n-flex :align="'center'" justify="center" size="large">
-                <n-h1 style="margin: 0;">逃离火灾</n-h1>
-                <n-button @click="refreshPage">刷新</n-button>
+            <n-flex vertical :align="'center'" justify="center" size="large">
+                <n-h1 style="margin: 0; color: white">逃离火灾</n-h1>
+                <n-button type="primary" round @click="refreshPage">刷新</n-button>
             </n-flex>
             <div>
                 <div class="grid-container">
@@ -332,9 +332,12 @@ const refreshPage = () => {
 </template>
 
 <style scoped>
-.test {
+.escapeFire {
     height: calc(100vh - 120px);
     padding: 30px;
+    background: url('https://cdn.pixabay.com/photo/2024/03/13/17/57/sea-8631493_1280.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow-y: auto;
 }
 
 .grid-container {
@@ -342,6 +345,7 @@ const refreshPage = () => {
     flex-direction: column;
     border: 2px solid black;
     border-collapse: collapse;
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .grid-row {

@@ -18,7 +18,7 @@ function inital() {
         <n-layout-header>
             <TopNavBar />
         </n-layout-header>
-        <n-layout-content embedded :native-scrollbar="false">
+        <n-layout-content embedded content-style="padding: 0px;" :native-scrollbar="false">
             <router-view />
         </n-layout-content>
     </n-layout>

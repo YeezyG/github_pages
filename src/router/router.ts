@@ -19,9 +19,14 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('../components/content/Blog/blog.vue')
             },
             {
-                path: "test",
-                name: "Test",
-                component: () => import('../components/content/Test/test.vue')
+                path: "escapeFire",
+                name: "EscapeFire",
+                component: () => import('../components/content/Test/EscapeFire/escapeFire.vue')
+            },
+            {
+                path: "emotionalAnimation",
+                name: "EmotionalAnimation",
+                component: () => import('../components/content/Test/EmotionalAnimation/emotionalAnimation.vue')
             }
         ]
     },

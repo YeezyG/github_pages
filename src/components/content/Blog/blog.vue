@@ -36,31 +36,35 @@ function inital() {
             </n-gi>
             <n-gi span="1">
                 <n-flex vertical :align="'center'" size="large">
-                    <n-card title="测试">
-                        <template #cover>
-                            <n-image preview-disabled
-                                src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"></n-image>
-                        </template>
+                    <n-card class="right-card" title="测试">
                         卡片内容
                     </n-card>
-                    <n-card title="测试">
-                        <template #cover>
-                            <n-image preview-disabled
-                                src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"></n-image>
-                        </template>
+                    <n-card class="right-card" title="测试">
                         卡片内容
                     </n-card>
                 </n-flex>
             </n-gi>
         </n-grid>
+        <n-back-top :right="50" />
     </div>
-    <n-back-top :right="50" />
 </template>
 
 <style scoped>
 .blog {
     height: calc(100vh - 120px);
-    padding: 30px
+    padding: 30px;
+    background: url('https://cdn.pixabay.com/photo/2024/03/13/17/57/sea-8631493_1280.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+
+    /* Firefox */
+    &::-webkit-scrollbar {
+        /* WebKit browsers */
+        display: none;
+    }
 }
 
 .img {
@@ -72,9 +76,16 @@ function inital() {
     max-height: 240px;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.1);
     transition: 0.3s;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
 }
 
 .left-card:hover {
     box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.right-card {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
 }
 </style>
