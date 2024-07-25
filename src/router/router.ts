@@ -27,6 +27,11 @@ const routes: Array<RouteRecordRaw> = [
                 path: "emotionalAnimation",
                 name: "EmotionalAnimation",
                 component: () => import('../components/content/Test/EmotionalAnimation/emotionalAnimation.vue')
+            },
+            {
+                path: "fishPool",
+                name: "FishPool",
+                component: () => import('../components/content/Test/FishPool/fishPool.vue')
             }
         ]
     },

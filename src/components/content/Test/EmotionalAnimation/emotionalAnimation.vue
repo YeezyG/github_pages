@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
-// 将原始的 JavaScript 逻辑转换为 Vue 3 的响应式和组合式 API
 const target = ref<HTMLDivElement | null>(null);
 const emotion = ref<NodeListOf<HTMLLIElement> | null>(null);
 const menu = ref<HTMLUListElement | null>(null);
 let walkThrough: any | null = null;
-let n = 0; // 使用 let 声明 n 以保持其状态
+let n = 0;
 
 function initEmotions() {
-    // 组件挂载后初始化表情
     target.value = document.querySelector("#head");
     emotion.value = document.querySelectorAll("#nav li");
     menu.value = document.querySelector("#nav");
@@ -25,11 +23,11 @@ function initEmotions() {
             em.classList.add("selected");
 
             // 清除目标元素的所有表情类
-            const allClasses = ['astonished', 'happy', 'anguished', 'feared', 'angry', 'tired', 'ondrugs']; // 假设这些是所有可能的表情类
+            const allClasses = ['astonished', 'happy', 'anguished', 'feared', 'angry', 'tired', 'ondrugs'];
             allClasses.forEach(className => target.value!.classList.remove(className));
 
             // 为目标元素添加相应的表情类
-            const classNames = em.className.split(' ').filter(name => name); // 分割类名并去除空格字符
+            const classNames = em.className.split(' ').filter(name => name);
             classNames.forEach(name => target.value!.classList.add(name));
         });
     });
@@ -102,13 +100,13 @@ onMounted(() => {
             <div class="chain"></div>
         </div>
         <ul id="nav">
-            <li class="emotion happy selected">😃</li>
-            <li class="emotion astonished">😲</li>
-            <li class="emotion feared">😱</li>
-            <li class="emotion anguished">😧</li>
-            <li class="emotion angry">😡</li>
-            <li class="emotion tired">😪</li>
-            <li class="emotion ondrugs">🎁</li>
+            <li class="happy selected">😃</li>
+            <li class="astonished">😲</li>
+            <li class="feared">😱</li>
+            <li class="anguished">😧</li>
+            <li class="angry">😡</li>
+            <li class="tired">😪</li>
+            <li class="ondrugs">🎁</li>
         </ul>
     </div>
 </template>

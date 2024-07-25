@@ -81,7 +81,8 @@ function inital() {
 }
 
 .left-card:hover {
-    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+    transform: scale(1.03);
+    /* box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2); */
 }
 
 .right-card {
