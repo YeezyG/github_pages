@@ -57,9 +57,9 @@ function inital() {
 
 .home {
     height: calc(100vh - 60px);
-    background-image: url('https://cdn.pixabay.com/photo/2024/03/13/17/57/sea-8631493_1280.jpg');
+    /* background-image: url('https://cdn.pixabay.com/photo/2024/03/13/17/57/sea-8631493_1280.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: center; */
     display: flex;
     justify-content: center;
     align-items: center;

@@ -311,7 +311,7 @@ const refreshPage = () => {
     <div class="escapeFire">
         <n-flex vertical :align="'center'" justify="center" size="large">
             <n-flex vertical :align="'center'" justify="center" size="large">
-                <n-h1 style="margin: 0;">逃离火灾</n-h1>
+                <n-h1 style="margin: 0; color: white;">逃离火灾</n-h1>
                 <n-button type="primary" round @click="refreshPage">刷新</n-button>
             </n-flex>
             <div>

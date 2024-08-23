@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import {
+    NAffix,
     NBackTop,
     NCard,
+    NCarousel,
     NFlex,
     NGrid, NGi,
     NH1,
     NImage,
 } from 'naive-ui'
+
 const readyRender = ref<boolean>(false)
+
+const containerRef = ref<HTMLElement | undefined>(undefined)
 
 inital()
 
@@ -18,8 +23,14 @@ function inital() {
 </script>
 
 <template>
-    <div v-if="readyRender" class="blog">
-        <n-grid cols="4" x-gap="24">
+    <div v-if="readyRender" ref="containerRef" class="blog">
+        <n-carousel autoplay draggable>
+            <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg">
+            <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg">
+            <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg">
+            <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg">
+        </n-carousel>
+        <n-grid cols="4" x-gap="30" style="padding: 30px; width: auto;">
             <n-gi span="3">
                 <n-flex vertical :align="'center'" size="large">
                     <n-card class="left-card" v-for="i in 6">
@@ -35,9 +46,9 @@ function inital() {
                 </n-flex>
             </n-gi>
             <n-gi span="1">
-                <n-flex vertical :align="'center'" size="large">
+                <n-flex vertical :align="'center'" size="large" class="right-area">
                     <n-card class="right-card" title="测试">
-                        卡片内容
+                        卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容
                     </n-card>
                     <n-card class="right-card" title="测试">
                         卡片内容
@@ -51,20 +62,26 @@ function inital() {
 
 <style scoped>
 .blog {
-    height: calc(100vh - 120px);
-    padding: 30px;
-    background: url('https://cdn.pixabay.com/photo/2024/03/13/17/57/sea-8631493_1280.jpg') no-repeat center center fixed;
-    background-size: cover;
+    height: calc(100vh - 60px);
+    /* background: url('https://cdn.pixabay.com/photo/2024/03/13/17/57/sea-8631493_1280.jpg') no-repeat center center fixed;
+    background-size: cover; */
     overflow-y: auto;
     -ms-overflow-style: none;
-    /* IE and Edge */
     scrollbar-width: none;
 
-    /* Firefox */
     &::-webkit-scrollbar {
-        /* WebKit browsers */
         display: none;
     }
+}
+
+.n-carousel {
+    height: 420px;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .img {
@@ -81,8 +98,13 @@ function inital() {
 }
 
 .left-card:hover {
-    transform: scale(1.03);
+    transform: scale(1.027);
     /* box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2); */
+}
+
+.right-area{
+    position: sticky;
+    top: 30px;
 }
 
 .right-card {

@@ -191,7 +191,7 @@ function random(min: number, max: number) {
 <style scoped>
 .main {
     width: 100%;
-    height: calc(100vh - 60px);
+    height: 100%;
     background: linear-gradient(180deg, #86defc 0%, #71cceb 20%, #73b2f1, #349ef8 83%, #cce293 93%, #e6cd6a 100%);
     overflow: hidden;
     position: relative;
